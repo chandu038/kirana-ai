@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/dialog";
 import AuthDialog from "@/components/AuthDialog";
 import CartPanel from "@/components/CartPanel";
-import { useCart } from "@/context/Cart-Context";
+import { useCart } from "@/context/cart-context";
 import { inr } from "@/lib/format";
 
 export default function CartDialogs() {

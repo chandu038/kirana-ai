@@ -1,7 +1,7 @@
 import { Minus, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Tip from "@/components/Tip";
-import { useCart } from "@/context/Cart-Context";
+import { useCart } from "@/context/cart-context";
 import { getUser } from "@/lib/api";
 import { inr } from "@/lib/format";
 

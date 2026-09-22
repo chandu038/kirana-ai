@@ -4,7 +4,7 @@ import CartDialogs from "@/components/CartDialogs";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserLayout from "@/components/UserLayout";
 import { useTheme } from "@/components/theme-provider";
-import { CartProvider } from "./context/Cart-Context";
+import { CartProvider } from "./context/cart-context";
 import { ChatProvider } from "./context/Chat-Context";
 import Landing from "@/pages/Landing";
 import AuthPage from "@/pages/AuthPage";

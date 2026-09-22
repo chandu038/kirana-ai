@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import Tip from "@/components/Tip";
-import { useCart } from "@/context/Cart-Context";
+import { useCart } from "@/context/cart-context";
 import { api } from "@/lib/api";
 import { inr } from "@/lib/format";
 

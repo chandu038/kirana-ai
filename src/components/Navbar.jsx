@@ -5,7 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ModeToggle";
 import Tip from "@/components/Tip";
-import { useCart } from "@/context/Cart-Context";
+import { useCart } from "@/context/cart-context";
 import { useChat } from "@/context/Chat-Context";
 import { getUser, logout } from "@/lib/api";
 import { cn } from "@/lib/utils";
