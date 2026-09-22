@@ -242,7 +242,7 @@ https://kirana-ai-gamma.vercel.app/
 https://github.com/chandu038/kirana-ai
 
 **Backend Repository:**
-https://github.com/chandu038/kirana-ai-backend
+https://github.com/chandu038/Kiranaai-backend
 
 ---
 
