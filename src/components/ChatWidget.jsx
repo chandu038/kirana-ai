@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useChat } from "@/context/Chat-Context";
 import {
   Bot,
   Clock,
@@ -18,7 +19,6 @@ import { Input } from "@/components/ui/input";
 import AuthDialog from "@/components/AuthDialog";
 import UserAvatar from "@/components/Avatar";
 import Tip from "@/components/Tip";
-import { useChat } from "@/context/chat-context";
 import { api, getUser } from "@/lib/api";
 import { loadAvatarSeed, newAvatarSeed, saveAvatarSeed } from "@/lib/avatar";
 import { cn } from "@/lib/utils";

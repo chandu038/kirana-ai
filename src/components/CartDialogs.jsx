@@ -2,16 +2,29 @@ import { useNavigate } from "react-router-dom";
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
-  Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle,
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 import AuthDialog from "@/components/AuthDialog";
 import CartPanel from "@/components/CartPanel";
-import { useCart } from "@/context/cart-context";
+import { useCart } from "@/context/Cart-Context";
 import { inr } from "@/lib/format";
 
 export default function CartDialogs() {
   const navigate = useNavigate();
-  const { open, setOpen, placed, setPlaced, authOpen, setAuthOpen, placeOrder } = useCart();
+  const {
+    open,
+    setOpen,
+    placed,
+    setPlaced,
+    authOpen,
+    setAuthOpen,
+    placeOrder,
+  } = useCart();
 
   // guest logged in from the cart: place the order, then show their orders
   async function afterLogin(user) {
@@ -30,7 +43,9 @@ export default function CartDialogs() {
         <DialogContent className="max-h-[88dvh] overflow-y-auto sm:max-w-md">
           <DialogHeader>
             <DialogTitle>Your cart</DialogTitle>
-            <DialogDescription>Review your items before placing the order.</DialogDescription>
+            <DialogDescription>
+              Review your items before placing the order.
+            </DialogDescription>
           </DialogHeader>
           <CartPanel />
         </DialogContent>
@@ -43,20 +58,29 @@ export default function CartDialogs() {
         onLoggedIn={afterLogin}
       />
 
-      <Dialog open={Boolean(placed)} onOpenChange={(o) => !o && setPlaced(null)}>
+      <Dialog
+        open={Boolean(placed)}
+        onOpenChange={(o) => !o && setPlaced(null)}
+      >
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
             <DialogTitle className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-600" /> Order placed!
             </DialogTitle>
-            <DialogDescription>Thank you. We'll start packing your order.</DialogDescription>
+            <DialogDescription>
+              Thank you. We'll start packing your order.
+            </DialogDescription>
           </DialogHeader>
           {placed && (
             <div className="space-y-2 text-sm">
               {placed.items.map((i) => (
                 <div key={i.id} className="flex justify-between">
-                  <span>{i.name} × {i.qty}</span>
-                  <span className="text-muted-foreground">{inr(i.price * i.qty)}</span>
+                  <span>
+                    {i.name} × {i.qty}
+                  </span>
+                  <span className="text-muted-foreground">
+                    {inr(i.price * i.qty)}
+                  </span>
                 </div>
               ))}
               <div className="flex justify-between border-t pt-2 font-semibold">
@@ -66,7 +90,9 @@ export default function CartDialogs() {
             </div>
           )}
           <DialogFooter>
-            <Button variant="outline" onClick={() => setPlaced(null)}>Continue shopping</Button>
+            <Button variant="outline" onClick={() => setPlaced(null)}>
+              Continue shopping
+            </Button>
             <Button
               onClick={() => {
                 setPlaced(null);

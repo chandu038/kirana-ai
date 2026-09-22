@@ -4,7 +4,7 @@ import CartDialogs from "@/components/CartDialogs";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import UserLayout from "@/components/UserLayout";
 import { useTheme } from "@/components/theme-provider";
-import { CartProvider } from "@/context/cart-context";
+import { CartProvider } from "./context/Cart-Context";
 import { ChatProvider } from "./context/Chat-Context";
 import Landing from "@/pages/Landing";
 import AuthPage from "@/pages/AuthPage";
@@ -30,11 +30,32 @@ export default function App() {
 
           <Route element={<UserLayout />}>
             {/* the shop is open to guests; orders send them to login */}
-            <Route path="/shop" element={<ProtectedRoute userOnly allowGuest><Shop /></ProtectedRoute>} />
-            <Route path="/orders" element={<ProtectedRoute userOnly><Orders /></ProtectedRoute>} />
+            <Route
+              path="/shop"
+              element={
+                <ProtectedRoute userOnly allowGuest>
+                  <Shop />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <ProtectedRoute userOnly>
+                  <Orders />
+                </ProtectedRoute>
+              }
+            />
           </Route>
 
-          <Route path="/admin" element={<ProtectedRoute adminOnly><AdminLayout /></ProtectedRoute>}>
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly>
+                <AdminLayout />
+              </ProtectedRoute>
+            }
+          >
             <Route index element={<AdminHome />} />
             <Route path="orders" element={<OrdersTab />} />
             <Route path="products" element={<ProductsTab />} />

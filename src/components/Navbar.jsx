@@ -5,8 +5,8 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import Logo from "@/components/Logo";
 import { ModeToggle } from "@/components/ModeToggle";
 import Tip from "@/components/Tip";
-import { useCart } from "@/context/cart-context";
-import { useChat } from "@/context/chat-context";
+import { useCart } from "@/context/Cart-Context";
+import { useChat } from "@/context/Chat-Context";
 import { getUser, logout } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
@@ -25,7 +25,10 @@ export default function Navbar() {
 
   const links =
     user?.role === "admin"
-      ? [{ to: "/", label: "Home" }, { to: "/admin", label: "Admin" }]
+      ? [
+          { to: "/", label: "Home" },
+          { to: "/admin", label: "Admin" },
+        ]
       : user
         ? [{ to: "/", label: "Home" }, { to: "/shop", label: "Shop" }, CONTACT]
         : onLanding
@@ -35,14 +38,18 @@ export default function Navbar() {
               { href: "#faq", label: "FAQ" },
               CONTACT,
             ]
-          : [{ to: "/", label: "Home" }, { to: "/shop", label: "Shop" }, CONTACT];
+          : [
+              { to: "/", label: "Home" },
+              { to: "/shop", label: "Shop" },
+              CONTACT,
+            ];
 
   function renderLink(l, mobile) {
     const cls = ({ isActive } = {}) =>
       cn(
         "rounded-md text-sm font-medium transition-colors hover:bg-muted",
         mobile ? "block px-3 py-2.5 text-base" : "px-3 py-2",
-        isActive ? "bg-muted text-foreground" : "text-muted-foreground"
+        isActive ? "bg-muted text-foreground" : "text-muted-foreground",
       );
     if (l.action) {
       // "Contact us" opens the assistant window on its Contact tab
@@ -51,11 +58,10 @@ export default function Navbar() {
           key={l.action}
           type="button"
           className={cn(cls(), mobile && "w-full text-left")}
-                    onClick={() => {
+          onClick={() => {
             close();
             window.dispatchEvent(new Event("open-contact"));
           }}
-  
         >
           {l.label}
         </button>
@@ -66,7 +72,13 @@ export default function Navbar() {
         {l.label}
       </a>
     ) : (
-      <NavLink key={l.to} to={l.to} end={l.to === "/"} className={cls} onClick={close}>
+      <NavLink
+        key={l.to}
+        to={l.to}
+        end={l.to === "/"}
+        className={cls}
+        onClick={close}
+      >
         {l.label}
       </NavLink>
     );
@@ -91,10 +103,18 @@ export default function Navbar() {
     }
     return (
       <>
-        <Link to="/login" onClick={close} className={cn(buttonVariants({ variant: "outline" }), size)}>
+        <Link
+          to="/login"
+          onClick={close}
+          className={cn(buttonVariants({ variant: "outline" }), size)}
+        >
           Log in
         </Link>
-        <Link to="/signup" onClick={close} className={cn(buttonVariants(), size)}>
+        <Link
+          to="/signup"
+          onClick={close}
+          className={cn(buttonVariants(), size)}
+        >
           Sign up
         </Link>
       </>
@@ -108,7 +128,13 @@ export default function Navbar() {
         to="/orders"
         aria-label="My orders"
         className={({ isActive }) =>
-          cn(buttonVariants({ variant: isActive ? "secondary" : "ghost", size: "sm" }), "h-9 gap-1.5 px-2 md:px-3")
+          cn(
+            buttonVariants({
+              variant: isActive ? "secondary" : "ghost",
+              size: "sm",
+            }),
+            "h-9 gap-1.5 px-2 md:px-3",
+          )
         }
       >
         <ClipboardList className="h-4 w-4" />
@@ -152,13 +178,17 @@ export default function Navbar() {
           <Logo />
         </Link>
 
-        <nav className="hidden items-center gap-1 md:flex">{links.map((l) => renderLink(l, false))}</nav>
+        <nav className="hidden items-center gap-1 md:flex">
+          {links.map((l) => renderLink(l, false))}
+        </nav>
 
         <div className="flex items-center gap-1">
           {ordersLink}
           {cartButton}
 
-          <div className="ml-1 hidden items-center gap-2 md:flex">{actions(false)}</div>
+          <div className="ml-1 hidden items-center gap-2 md:flex">
+            {actions(false)}
+          </div>
 
           <Button
             variant="ghost"
@@ -177,8 +207,15 @@ export default function Navbar() {
       {open && (
         <div className="absolute inset-x-0 top-full border-b bg-background shadow-md md:hidden">
           <div className="mx-auto max-w-6xl px-4 py-3">
-            <nav className="flex flex-col">{links.map((l) => renderLink(l, true))}</nav>
-            <div className={cn("mt-3 grid gap-2 border-t pt-3", user ? "grid-cols-1" : "grid-cols-2")}>
+            <nav className="flex flex-col">
+              {links.map((l) => renderLink(l, true))}
+            </nav>
+            <div
+              className={cn(
+                "mt-3 grid gap-2 border-t pt-3",
+                user ? "grid-cols-1" : "grid-cols-2",
+              )}
+            >
               {actions(true)}
             </div>
           </div>
