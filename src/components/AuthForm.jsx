@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useChat } from "@/context/chat-context";
+import { useChat } from "@/context/Chat-Context";
 import { api, getUser, logout, setToken } from "@/lib/api";
 import { cn } from "@/lib/utils";
 
