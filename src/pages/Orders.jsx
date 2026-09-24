@@ -7,11 +7,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import CancelOrderDialog from "@/components/CancelOrderDialog";
 import { api } from "@/lib/api";
 import { inr, orderDateTime } from "@/lib/format";
 
 export default function Orders() {
   const [orders, setOrders] = useState(null);
+  const [cancelOrder, setCancelOrder] = useState(null);
+  const [refresh, setRefresh] = useState(0);
 
   useEffect(() => {
     let ignore = false;
@@ -25,7 +29,21 @@ export default function Orders() {
     return () => {
       ignore = true;
     };
-  }, []);
+  }, [refresh]);
+
+  async function handleCancel(orderId) {
+    try {
+      await api(`/orders/${orderId}/cancel`, {
+        method: "PATCH",
+      });
+
+      toast.success(`Order #${orderId} cancelled`);
+      setCancelOrder(null);
+      setRefresh((value) => value + 1);
+    } catch (e) {
+      toast.error(e.message);
+    }
+  }
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-6">
@@ -84,10 +102,30 @@ export default function Orders() {
                 <span>Total</span>
                 <span>{inr(o.total)}</span>
               </div>
+
+              {o.status === "placed" && (
+                <div className="mt-4 flex justify-end">
+                  <Button
+                    variant="destructive"
+                    onClick={() => setCancelOrder(o)}
+                  >
+                    Cancel Order
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}
       </div>
+
+      <CancelOrderDialog
+        order={cancelOrder}
+        open={cancelOrder !== null}
+        onOpenChange={(open) => {
+          if (!open) setCancelOrder(null);
+        }}
+        onConfirm={() => handleCancel(cancelOrder.id)}
+      />
     </div>
   );
 }
