@@ -7,43 +7,26 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import CancelOrderDialog from "@/components/CancelOrderDialog";
 import { api } from "@/lib/api";
 import { inr, orderDateTime } from "@/lib/format";
+import CancelOrderDialog from "@/components/CancelOrderDialog";
 
 export default function Orders() {
   const [orders, setOrders] = useState(null);
   const [cancelOrder, setCancelOrder] = useState(null);
-  const [refresh, setRefresh] = useState(0);
 
-  useEffect(() => {
-    let ignore = false;
-
-    api("/orders?limit=50")
-      .then((data) => {
-        if (!ignore) setOrders(data);
-      })
-      .catch((e) => toast.error(e.message));
-
-    return () => {
-      ignore = true;
-    };
-  }, [refresh]);
-
-  async function handleCancel(orderId) {
+  async function loadOrders() {
     try {
-      await api(`/orders/${orderId}/cancel`, {
-        method: "PATCH",
-      });
-
-      toast.success(`Order #${orderId} cancelled`);
-      setCancelOrder(null);
-      setRefresh((value) => value + 1);
+      const data = await api("/orders?limit=50");
+      setOrders(data);
     } catch (e) {
       toast.error(e.message);
     }
   }
+
+  useEffect(() => {
+    loadOrders();
+  }, []);
 
   return (
     <div className="container mx-auto max-w-5xl px-4 py-6">
@@ -105,12 +88,13 @@ export default function Orders() {
 
               {o.status === "placed" && (
                 <div className="mt-4 flex justify-end">
-                  <Button
-                    variant="destructive"
+                  <button
+                    type="button"
+                    className="rounded-md bg-destructive px-4 py-2 text-sm font-medium text-destructive-foreground hover:opacity-90"
                     onClick={() => setCancelOrder(o)}
                   >
                     Cancel Order
-                  </Button>
+                  </button>
                 </div>
               )}
             </CardContent>
@@ -118,14 +102,16 @@ export default function Orders() {
         ))}
       </div>
 
-      <CancelOrderDialog
-        order={cancelOrder}
-        open={cancelOrder !== null}
-        onOpenChange={(open) => {
-          if (!open) setCancelOrder(null);
-        }}
-        onConfirm={() => handleCancel(cancelOrder.id)}
-      />
+      {cancelOrder && (
+        <CancelOrderDialog
+          order={cancelOrder}
+          onClose={() => setCancelOrder(null)}
+          onCancelled={async () => {
+            setCancelOrder(null);
+            await loadOrders();
+          }}
+        />
+      )}
     </div>
   );
 }
